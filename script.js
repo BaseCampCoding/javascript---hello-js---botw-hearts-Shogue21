@@ -2,8 +2,14 @@ const heartsContainer = document.querySelector("#hearts-container");
 const controlsContainer = document.querySelector("#controls-container");
 const hitButton = controlsContainer.querySelector("#hit-button");
 const hitDamageInput = controlsContainer.querySelector("#hit-damage-input");
+const healButton = controlsContainer.querySelector("#heal-button");
+const healAmountInput = controlsContainer.querySelector("#heal-amount-input");
+const ahcButton = controlsContainer.querySelector("#add-heart-container-button");
+const overhealButton = controlsContainer.querySelector("#overheal-button");
+const overhealAmountInput = controlsContainer.querySelector("#overheal-amount-input");
 let health = 35;
-let maxHealth = 40;
+let maxHealth = 44;
+let overHealAmount = 0
 
 function randint(lo, hi) {
   return Math.floor(Math.random() * (hi - lo) + lo);
@@ -22,6 +28,33 @@ function updateHeartsDisplay() {
   }
 }
 
+function heal() {
+  health = Math.min(maxHealth, health + Number(healAmountInput.value) * 4)
+  updateHeartsDisplay();
+}
+
+function addHeartContainer() {
+  let newHeart = heartsContainer.firstElementChild.cloneNode(true)
+  heartsContainer.appendChild(newHeart)
+  maxHealth += 4
+  health = maxHealth
+  updateHeartsDisplay();
+}
+
+function overHeal() {
+  for (let i = overhealAmountInput.value; i != 0; i--) {
+    let newHeart = heartsContainer.firstElementChild.cloneNode(true)
+    newHeart.className += " extra"
+    heartsContainer.appendChild(newHeart)
+    overHealAmount += 4
+    health = maxHealth + overHealAmount
+  }
+  updateHeartsDisplay();
+}
+
+overhealButton.addEventListener("click", overHeal)
+ahcButton.addEventListener("click", addHeartContainer)
+healButton.addEventListener("click", heal)
 hitButton.addEventListener("click", function () {
   let damage = Number(hitDamageInput.value);
   health = Math.max(0, health - damage);
