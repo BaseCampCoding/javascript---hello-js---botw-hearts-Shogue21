@@ -42,12 +42,14 @@ function addHeartContainer() {
 }
 
 function overHeal() {
-  for (let i = overhealAmountInput.value; i != 0; i--) {
-    let newHeart = heartsContainer.firstElementChild.cloneNode(true)
-    newHeart.className += " extra"
-    heartsContainer.appendChild(newHeart)
-    overHealAmount += 4
-    health = maxHealth + overHealAmount
+  if (overhealAmountInput.value > overHealAmount / 4) {
+    for (let i = overhealAmountInput.value - (overHealAmount / 4); i != 0; i--) {
+      let newHeart = heartsContainer.firstElementChild.cloneNode(true)
+      newHeart.className += " extra"
+      heartsContainer.appendChild(newHeart)
+      overHealAmount += 4
+      health = maxHealth + overHealAmount
+    }
   }
   updateHeartsDisplay();
 }
